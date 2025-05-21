@@ -6,7 +6,12 @@ function createCube(x, y, size) {
   cube.style.width = `${size}px`;
   cube.style.height = `${size}px`;
 
+  let hasInteracted = false; // 👈 Flag to avoid double trigger
+
   function handleInteraction(e) {
+    if (hasInteracted) return;
+    hasInteracted = true;
+
     cube.remove();
 
     const newSize = size / 2;
@@ -19,12 +24,12 @@ function createCube(x, y, size) {
     }
   }
 
-  // Mouse hover
   cube.addEventListener('mouseover', handleInteraction);
-  // Mobile touch
   cube.addEventListener('touchstart', handleInteraction, { passive: true });
 
   document.getElementById('container').appendChild(cube);
+}
+
 }
 
 window.onload = () => {
