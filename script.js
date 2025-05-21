@@ -38,8 +38,8 @@ function handleAction(clickX, clickY) {
 
   const shots = {
     pistol: 1,
-    shotgun: 7,
-    bazooka: 25
+    shotgun: 15,
+    bazooka: 100
   };
 
   const radius = spread[currentMode];
