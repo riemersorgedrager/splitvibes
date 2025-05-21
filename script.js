@@ -6,10 +6,7 @@ function createCube(x, y, size) {
   cube.style.width = `${size}px`;
   cube.style.height = `${size}px`;
 
-  // Add random animation delay for organic feel
-  cube.style.animationDelay = `${Math.random() * 0.3}s`;
-
-  cube.addEventListener('mouseover', (e) => {
+  function handleInteraction(e) {
     cube.remove();
 
     const newSize = size / 2;
@@ -20,24 +17,16 @@ function createCube(x, y, size) {
         createCube(x + dx * newSize, y + dy * newSize, newSize);
       }
     }
+  }
 
-    // Optional: sparkle on split
-    sparkle(e.pageX, e.pageY);
-  });
+  // Mouse hover
+  cube.addEventListener('mouseover', handleInteraction);
+  // Mobile touch
+  cube.addEventListener('touchstart', handleInteraction, { passive: true });
 
   document.getElementById('container').appendChild(cube);
 }
 
-// Optional sparkle effect
-function sparkle(x, y) {
-  const dot = document.createElement('div');
-  dot.className = 'sparkle';
-  dot.style.left = `${x}px`;
-  dot.style.top = `${y}px`;
-  document.body.appendChild(dot);
-  setTimeout(() => dot.remove(), 500);
-}
-
 window.onload = () => {
-  createCube(0, 0, 400);
+  createCube(0, 0, document.getElementById('container').offsetWidth);
 };
