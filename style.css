@@ -40,6 +40,35 @@ body {
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
+#toolbar {
+  position: absolute;
+  top: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.weapon {
+  background: #2c2c3d;
+  color: white;
+  border: 2px solid #888;
+  border-radius: 50%;
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.weapon:hover {
+  background: #444;
+}
+
+.weapon.selected {
+  border-color: #fcbad3;
+  box-shadow: 0 0 10px #fcbad3aa;
+}
+
 /* === Keyframes === */
 @keyframes popIn {
   to {
