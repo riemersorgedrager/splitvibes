@@ -1,6 +1,6 @@
-let currentMode = 'pistol'; // default weapon
+let currentMode = 'pistol'; // Default weapon mode
 
-// Mode switch buttons
+// 🎯 Set up weapon switching
 document.querySelectorAll('.weapon').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.weapon').forEach(b => b.classList.remove('selected'));
@@ -9,6 +9,7 @@ document.querySelectorAll('.weapon').forEach(btn => {
   });
 });
 
+// 🧊 Create a single cube at a given x/y/size
 function createCube(x, y, size) {
   const cube = document.createElement('div');
   cube.classList.add('cube');
@@ -17,7 +18,6 @@ function createCube(x, y, size) {
   cube.style.width = `${size}px`;
   cube.style.height = `${size}px`;
 
-  // Store cube data for accurate click targeting
   cube.dataset.x = x;
   cube.dataset.y = y;
   cube.dataset.size = size;
@@ -29,13 +29,37 @@ function createCube(x, y, size) {
   document.getElementById('container').appendChild(cube);
 }
 
+// 🧠 Simulate gun modes with randomized nearby clicks
 function handleAction(clickX, clickY) {
+  const spread = {
+    pistol: 0,
+    shotgun: 25,
+    bazooka: 60
+  };
+
+  const shots = {
+    pistol: 1,
+    shotgun: 7,
+    bazooka: 25
+  };
+
+  const radius = spread[currentMode];
+  const count = shots[currentMode];
+
+  for (let i = 0; i < count; i++) {
+    const offsetX = i === 0 ? 0 : (Math.random() * 2 - 1) * radius;
+    const offsetY = i === 0 ? 0 : (Math.random() * 2 - 1) * radius;
+    fireAt(clickX + offsetX, clickY + offsetY);
+  }
+}
+
+// 🧨 Fire a single shot at a given screen coordinate
+function fireAt(clickX, clickY) {
   const container = document.getElementById('container');
   const rect = container.getBoundingClientRect();
   const relX = clickX - rect.left;
   const relY = clickY - rect.top;
 
-  // Find the clicked cube based on mouse position
   const allCubes = Array.from(container.querySelectorAll('.cube'));
   const target = allCubes.find(cube => {
     const x = parseFloat(cube.dataset.x);
@@ -50,15 +74,10 @@ function handleAction(clickX, clickY) {
   const y = parseFloat(target.dataset.y);
   const size = parseFloat(target.dataset.size);
 
-  if (currentMode === 'pistol') {
-    splitCube(x, y, size);
-  } else if (currentMode === 'shotgun') {
-    shotgunBlast(x, y, size);
-  } else if (currentMode === 'bazooka') {
-    bazookaBoom(x, y, size);
-  }
+  splitCube(x, y, size);
 }
 
+// 💥 Basic 4-way cube split (recursive limit based on size)
 function splitCube(x, y, size) {
   const cube = findCube(x, y, size);
   if (cube) cube.remove();
@@ -73,35 +92,7 @@ function splitCube(x, y, size) {
   }
 }
 
-function shotgunBlast(centerX, centerY, size) {
-  const radius = document.getElementById('container').offsetWidth / 6;
-  const shots = 6;
-
-  // Always include the center cube
-  splitCube(centerX, centerY, size);
-
-  for (let i = 1; i < shots; i++) {
-    const angle = Math.random() * 2 * Math.PI;
-    const distance = Math.random() * radius;
-    const offsetX = Math.round(Math.cos(angle) * distance / size) * size;
-    const offsetY = Math.round(Math.sin(angle) * distance / size) * size;
-    splitCube(centerX + offsetX, centerY + offsetY, size);
-  }
-}
-
-function bazookaBoom(centerX, centerY, size) {
-  const radius = document.getElementById('container').offsetWidth / 3;
-  const shots = 25;
-
-  for (let i = 0; i < shots; i++) {
-    const angle = Math.random() * 2 * Math.PI;
-    const distance = Math.random() * radius;
-    const offsetX = Math.round(Math.cos(angle) * distance / size) * size;
-    const offsetY = Math.round(Math.sin(angle) * distance / size) * size;
-    splitCube(centerX + offsetX, centerY + offsetY, size);
-  }
-}
-
+// 🔍 Find cube by exact grid coords (used for removal)
 function findCube(x, y, size) {
   const allCubes = document.querySelectorAll('.cube');
   return Array.from(allCubes).find(cube =>
@@ -111,6 +102,7 @@ function findCube(x, y, size) {
   );
 }
 
+// 🚀 Initialize
 window.onload = () => {
   const size = document.getElementById('container').offsetWidth;
   createCube(0, 0, size);
