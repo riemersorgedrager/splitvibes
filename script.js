@@ -30,7 +30,7 @@ function createCube(x, y, size) {
   document.getElementById('container').appendChild(cube);
 }
 
-}
+
 
 window.onload = () => {
   createCube(0, 0, document.getElementById('container').offsetWidth);
