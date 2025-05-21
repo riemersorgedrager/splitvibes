@@ -17,7 +17,7 @@ function createCube(x, y, size) {
   cube.style.width = `${size}px`;
   cube.style.height = `${size}px`;
 
-  cube.addEventListener('mouseover', (e) => {
+  cube.addEventListener('click', (e) => {
     handleAction(x, y, size);
   });
 
