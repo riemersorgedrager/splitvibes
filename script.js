@@ -44,7 +44,7 @@ function handleAction(clickX, clickY) {
 
   const radius = spread[currentMode];
   const count = shots[currentMode];
-  const delay = 30; // ms between each simulated click
+  const delay = 3; // ms between each simulated click
 
   for (let i = 0; i < count; i++) {
     const offsetX = i === 0 ? 0 : (Math.random() * 2 - 1) * radius;
