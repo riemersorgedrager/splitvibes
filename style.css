@@ -13,12 +13,13 @@ body {
 
 #container {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: min(90vw, 400px); /* 👈 Responsive width */
+  height: min(90vw, 400px); /* 👈 Keep it square and inside screen */
   transform-style: preserve-3d;
+  touch-action: none; /* Prevents some scrolling weirdness on touch */
+  overflow: hidden;
 }
 
-/* === Cube Styling === */
 .cube {
   position: absolute;
   width: 100%;
@@ -31,6 +32,7 @@ body {
   animation: popIn 0.4s ease forwards;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
+
 
 /* === Hover Interaction === */
 .cube:hover {
