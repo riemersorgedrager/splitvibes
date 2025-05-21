@@ -29,7 +29,6 @@ function createCube(x, y, size) {
   document.getElementById('container').appendChild(cube);
 }
 
-// 🧠 Simulate gun modes with randomized nearby clicks
 function handleAction(clickX, clickY) {
   const spread = {
     pistol: 0,
@@ -45,13 +44,18 @@ function handleAction(clickX, clickY) {
 
   const radius = spread[currentMode];
   const count = shots[currentMode];
+  const delay = 30; // ms between each simulated click
 
   for (let i = 0; i < count; i++) {
     const offsetX = i === 0 ? 0 : (Math.random() * 2 - 1) * radius;
     const offsetY = i === 0 ? 0 : (Math.random() * 2 - 1) * radius;
-    fireAt(clickX + offsetX, clickY + offsetY);
+
+    setTimeout(() => {
+      fireAt(clickX + offsetX, clickY + offsetY);
+    }, i * delay);
   }
 }
+
 
 // 🧨 Fire a single shot at a given screen coordinate
 function fireAt(clickX, clickY) {
